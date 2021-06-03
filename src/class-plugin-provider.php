@@ -38,7 +38,8 @@ class Plugin_Provider extends Base_Provider {
 		};
 
 		$this->plugin[ Config::class ] = function() {
-			$values = include __DIR__ . '/config.php';
+			$values = include $this->get_config_fle();
+
 			$config = new Config( $values );
 
 			$this->plugin[ Event_Manager::class ]->trigger( 'cfw_config_init', $config );
@@ -149,5 +150,13 @@ class Plugin_Provider extends Base_Provider {
 
 	protected function subscribers() : array {
 		return [ Plugin_Subscriber::class ];
+	}
+
+	private function get_config_fle(): string {
+		if(file_exists(get_template_directory() . '/config/clockwork.php')) {
+			return get_template_directory() . '/config/clockwork.php';
+		}
+
+		return  __DIR__ . '/config.php';
 	}
 }
