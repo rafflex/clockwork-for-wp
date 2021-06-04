@@ -27,12 +27,12 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-register_activation_hook( __FILE__, 'sp_subscriber_check_activation_hook' );
-function sp_subscriber_check_activation_hook() {
+register_activation_hook( __FILE__, function() {
 	if(!file_exists(get_template_directory() . '/config/clockwork.php')) {
 		copy(__DIR__ . '/src/config.php', get_template_directory() . '/config/clockwork.php');
 	}
-}
+});
+
 
 // @todo Verify server requirements are met.
 
